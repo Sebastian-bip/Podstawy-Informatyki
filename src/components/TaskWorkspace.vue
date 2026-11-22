@@ -28,12 +28,14 @@ const props = defineProps<{
   quizMode: boolean;
   hasPrev: boolean;
   hasNext: boolean;
+  isMastered?: boolean;
 }>();
 
 const emit = defineEmits<{
   (e: 'prev'): void;
   (e: 'next'): void;
   (e: 'open-board-tab'): void;
+  (e: 'toggle-mastered'): void;
 }>();
 
 const selectedOption = ref<string | null>(null);
@@ -65,7 +67,21 @@ watch(
           <span class="tabular-nums">{{ task.points }} pkt</span>
         </div>
 
-        <div class="flex items-center gap-2">
+        <div class="flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            @click="emit('toggle-mastered')"
+            :aria-pressed="Boolean(isMastered)"
+            class="inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap shrink-0"
+            :class="
+              isMastered
+                ? 'border-emerald-500 bg-emerald-50 text-emerald-800 hover:bg-emerald-100/80 dark:border-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-300 dark:hover:bg-emerald-950'
+                : 'border-[#e4dccb] bg-[#fffdf7] text-stone-700 hover:bg-[#f7f1e3] dark:border-slate-700 dark:bg-transparent dark:text-slate-200 dark:hover:bg-slate-800'
+            "
+          >
+            <CheckCircle2 class="h-3.5 w-3.5" />
+            {{ isMastered ? 'Zrobione' : 'Oznacz jako zrobione' }}
+          </button>
           <button
             type="button"
             @click="emit('prev')"

@@ -1,12 +1,20 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
-import { Check, Moon, Sun } from 'lucide-vue-next';
+import { Check, Cookie, Moon, Sun } from 'lucide-vue-next';
 import { Analytics } from '@vercel/analytics/vue';
 import { SpeedInsights } from '@vercel/speed-insights/vue';
 import { EXAM_SETS } from './data/exams';
 import TaskWorkspace from './components/TaskWorkspace.vue';
 // import ReferenceBoardView from './components/ReferenceBoardView.vue';
 import CustomPlayground from './components/CustomPlayground.vue';
+import CookiePolicyModal from './components/CookiePolicyModal.vue';
+import {
+  acceptCookieNotice,
+  clearMasteredTasksCookie,
+  hasAcceptedCookieNotice,
+  loadMasteredTasks,
+  saveMasteredTasks,
+} from './utils/cookies';
 
 type MainTab = 'zestaw-d' | 'zestaw-e' | 'zestaw-b' | 'wlasny'; // | 'tablica'
 
@@ -45,32 +53,38 @@ watch(
   { immediate: true }
 );
 
-// Persist mastered tasks checklist in localStorage
-const STORAGE_KEY = 'pi_kolokwium_mastered_v1';
-const loadMastered = (): Record<string, boolean> => {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : {};
-  } catch {
-    return {};
-  }
-};
-const masteredTasks = ref<Record<string, boolean>>(loadMastered());
+// Persist completed ("zrobione") tasks checklist in browser cookies (pi_done_tasks)
+const masteredTasks = ref<Record<string, boolean>>(loadMasteredTasks());
 
 watch(
   masteredTasks,
   (val) => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(val));
-    } catch {
-      // ignore storage errors
-    }
+    saveMasteredTasks(val);
   },
   { deep: true }
 );
 
 const toggleMastered = (taskId: string) => {
-  masteredTasks.value[taskId] = !masteredTasks.value[taskId];
+  if (masteredTasks.value[taskId]) {
+    const next = { ...masteredTasks.value };
+    delete next[taskId];
+    masteredTasks.value = next;
+  } else {
+    masteredTasks.value = { ...masteredTasks.value, [taskId]: true };
+  }
+};
+
+const clearAllMastered = () => {
+  masteredTasks.value = {};
+  clearMasteredTasksCookie();
+};
+
+const cookieNoticeAccepted = ref<boolean>(hasAcceptedCookieNotice());
+const showCookiePolicy = ref<boolean>(false);
+
+const handleAcceptCookieNotice = () => {
+  acceptCookieNotice();
+  cookieNoticeAccepted.value = true;
 };
 
 const currentExamSet = computed(
@@ -312,7 +326,7 @@ const selectTab = (tab: MainTab) => {
             <h2 class="mt-1 text-base font-bold text-stone-900 dark:text-slate-100">{{ currentExamSet.pdfTitle }}</h2>
             <p class="mt-1 text-xs text-stone-600 dark:text-slate-400">{{ currentExamSet.metaSummary }}</p>
             <div class="mt-2.5 flex items-center justify-between border-t border-[#ede6d7] pt-2.5 text-xs text-stone-600 dark:border-slate-800 dark:text-slate-400">
-              <span>Opanowane zadania</span>
+              <span>Zrobione zadania</span>
               <strong class="font-mono tabular-nums text-stone-900 dark:text-slate-100">
                 {{ masteredCountInCurrentSet }} / {{ currentExamSet.tasks.length }}
               </strong>
@@ -359,7 +373,9 @@ const selectTab = (tab: MainTab) => {
                   <button
                     type="button"
                     @click="toggleMastered(t.id)"
-                    :aria-label="`Oznacz zadanie ${t.number} jako opanowane`"
+                    :aria-pressed="Boolean(masteredTasks[t.id])"
+                    :aria-label="`Oznacz zadanie ${t.number} jako zrobione`"
+                    :title="masteredTasks[t.id] ? 'Zadanie zrobione (zapisane w ciasteczkach)' : 'Oznacz zadanie jako zrobione'"
                     class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border transition-colors"
                     :class="
                       masteredTasks[t.id]
@@ -413,8 +429,10 @@ const selectTab = (tab: MainTab) => {
             :quiz-mode="quizMode"
             :has-prev="currentTaskIndex > 0"
             :has-next="currentTaskIndex < currentExamSet.tasks.length - 1"
+            :is-mastered="Boolean(masteredTasks[currentTask.id])"
             @prev="selectTask(currentTaskIndex - 1)"
             @next="selectTask(currentTaskIndex + 1)"
+            @toggle-mastered="toggleMastered(currentTask.id)"
           />
 
           <!-- Initial Empty State when no task is selected -->
@@ -479,11 +497,65 @@ const selectTab = (tab: MainTab) => {
 
     <!-- Quiet Footer -->
     <footer class="border-t border-[#e4dccb] bg-[#fffdf7] py-4 dark:border-slate-800 dark:bg-slate-900">
-      <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-2 px-4 text-xs text-stone-600 dark:text-slate-400 sm:px-6">
+      <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 text-xs text-stone-600 dark:text-slate-400 sm:px-6">
         <span>Materiały powtórkowe do kolokwium z Podstaw Informatyki (Zestaw D, Zestaw E i Zestaw B)</span>
-        <span>Wszystkie rozwiązania opracowane metodą pisemną krok po kroku</span>
+        <div class="flex flex-wrap items-center gap-4">
+          <span>Wszystkie rozwiązania opracowane metodą pisemną krok po kroku</span>
+          <button
+            type="button"
+            @click="showCookiePolicy = true"
+            class="inline-flex items-center gap-1.5 font-semibold text-blue-800 underline decoration-blue-300 underline-offset-4 transition-colors hover:text-blue-900 dark:text-blue-400 dark:decoration-blue-700 dark:hover:text-blue-300"
+          >
+            <Cookie class="h-3.5 w-3.5" />
+            Polityka ciasteczek
+          </button>
+        </div>
       </div>
     </footer>
+
+    <!-- Cookie Notice Banner -->
+    <aside
+      v-if="!cookieNoticeAccepted"
+      aria-label="Informacja o plikach cookies"
+      class="fixed right-4 bottom-4 left-4 z-40 mx-auto max-w-4xl rounded-xl border border-[#e4dccb] bg-[#fffdf7]/95 p-4 shadow-xl backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900/95"
+    >
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div class="flex items-start gap-3">
+          <div class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[#e4dccb] bg-[#f7f1e3] text-amber-700 dark:border-slate-700 dark:bg-slate-800 dark:text-amber-400">
+            <Cookie class="h-4 w-4" />
+          </div>
+          <p class="text-xs leading-relaxed text-stone-700 dark:text-slate-300">
+            Ta strona wykorzystuje pliki <strong class="text-stone-900 dark:text-slate-100">cookies (ciasteczka)</strong>, aby zapamiętać i automatycznie wczytywać zadania odznaczone przez Ciebie jako zrobione, a także zbiera anonimowe statystyki wydajności. Szczegóły znajdziesz w naszej polityce ciasteczek.
+          </p>
+        </div>
+        <div class="flex shrink-0 items-center gap-2 self-end sm:self-center">
+          <button
+            type="button"
+            @click="showCookiePolicy = true"
+            class="rounded-lg border border-[#e4dccb] bg-[#fffdf7] px-3 py-1.5 text-xs font-semibold text-stone-700 transition-colors hover:bg-[#f7f1e3] dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 whitespace-nowrap"
+          >
+            Polityka ciasteczek
+          </button>
+          <button
+            type="button"
+            @click="handleAcceptCookieNotice"
+            class="rounded-lg bg-blue-700 px-3.5 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-500 whitespace-nowrap"
+          >
+            Akceptuję
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <CookiePolicyModal
+      v-if="showCookiePolicy"
+      :mastered-tasks="masteredTasks"
+      :notice-accepted="cookieNoticeAccepted"
+      @close="showCookiePolicy = false"
+      @accept-notice="handleAcceptCookieNotice"
+      @clear-progress="clearAllMastered"
+    />
+
     <Analytics />
     <SpeedInsights />
   </div>
