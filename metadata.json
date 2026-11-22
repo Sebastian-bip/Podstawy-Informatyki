@@ -2,5 +2,7 @@
   "name": "Podstawy Informatyki — Kompendium Kolokwium",
   "description": "Interaktywne rozwiązania krok po kroku zadań pisemnych z Podstaw Informatyki (Zestaw D i Zestaw B) dla studentów.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

@@ -3,10 +3,10 @@ import { computed, ref, watch } from 'vue';
 import { Check } from 'lucide-vue-next';
 import { EXAM_SETS } from './data/exams';
 import TaskWorkspace from './components/TaskWorkspace.vue';
-import ReferenceBoardView from './components/ReferenceBoardView.vue';
+// import ReferenceBoardView from './components/ReferenceBoardView.vue';
 import CustomPlayground from './components/CustomPlayground.vue';
 
-type MainTab = 'zestaw-d' | 'zestaw-b' | 'tablica' | 'wlasny';
+type MainTab = 'zestaw-d' | 'zestaw-b' | 'wlasny'; // | 'tablica'
 
 const activeTab = ref<MainTab>('zestaw-d');
 const selectedTaskIdxBySet = ref<Record<'zestaw-d' | 'zestaw-b', number>>({
@@ -121,7 +121,7 @@ const selectTab = (tab: MainTab) => {
           >
             Zestaw B (13 zadań)
           </button>
-          <button
+          <!-- <button
             type="button"
             @click="selectTab('tablica')"
             class="border-b-2 py-1 text-sm font-medium transition-colors whitespace-nowrap shrink-0"
@@ -132,7 +132,7 @@ const selectTab = (tab: MainTab) => {
             "
           >
             Tablica z zajęć
-          </button>
+          </button> -->
           <button
             type="button"
             @click="selectTab('wlasny')"
@@ -165,7 +165,7 @@ const selectTab = (tab: MainTab) => {
       </div>
 
       <!-- Mobile Navigation Strip -->
-      <div class="grid grid-cols-4 gap-1 border-t border-slate-100 px-3 py-1.5 md:hidden">
+      <div class="grid grid-cols-3 gap-1 border-t border-slate-100 px-3 py-1.5 md:hidden">
         <button
           type="button"
           @click="selectTab('zestaw-d')"
@@ -182,14 +182,14 @@ const selectTab = (tab: MainTab) => {
         >
           Zestaw B
         </button>
-        <button
+        <!-- <button
           type="button"
           @click="selectTab('tablica')"
           class="rounded-md px-2 py-1.5 text-center text-xs font-medium whitespace-nowrap"
           :class="activeTab === 'tablica' ? 'bg-blue-700 text-white' : 'text-slate-700 hover:bg-slate-100'"
         >
           Tablica
-        </button>
+        </button> -->
         <button
           type="button"
           @click="selectTab('wlasny')"
@@ -331,13 +331,13 @@ const selectTab = (tab: MainTab) => {
             :has-next="currentTaskIndex < currentExamSet.tasks.length - 1"
             @prev="selectTask(currentTaskIndex - 1)"
             @next="selectTask(currentTaskIndex + 1)"
-            @open-board-tab="selectTab('tablica')"
           />
+          <!-- @open-board-tab="selectTab('tablica')" -->
         </div>
       </div>
 
-      <!-- Whiteboard Photos Reference Tab -->
-      <ReferenceBoardView v-else-if="activeTab === 'tablica'" />
+      <!-- Whiteboard Photos Reference Tab (zakomentowane na prośbę użytkownika) -->
+      <!-- <ReferenceBoardView v-else-if="activeTab === 'tablica'" /> -->
 
       <!-- Custom Playground Tab -->
       <CustomPlayground v-else-if="activeTab === 'wlasny'" />

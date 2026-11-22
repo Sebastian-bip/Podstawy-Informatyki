@@ -187,13 +187,13 @@ watch(
             <p class="text-sm leading-relaxed text-slate-700">
               {{ task.whiteboardPhotoRef.caption }}
             </p>
-            <button
+            <!-- <button
               type="button"
               @click="emit('open-board-tab')"
               class="text-xs font-semibold text-blue-700 underline underline-offset-4 hover:text-blue-900"
             >
               Otwórz pełną zakładkę „Tablica z zajęć” →
-            </button>
+            </button> -->
           </div>
         </div>
       </div>
