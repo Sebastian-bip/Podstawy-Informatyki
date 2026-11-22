@@ -1221,6 +1221,9 @@ export interface U2AdditionResult {
   carriesRow: string;
   sumBinary: string;
   carryOut: '0' | '1';
+  carryIntoMSB: '0' | '1';
+  overflow: boolean;
+  signedResultDecimal: number;
   sumDecimalCheck: number;
   verifyNegativeInversion: { inverted: string; plusOne: string; magnitude: number } | null;
 }
@@ -1268,7 +1271,14 @@ export function solveU2Addition(aDec: number, bDec: number, bits = 8): U2Additio
   }
 
   const sumBinary = sumBits.join('');
+  const carryOut: '0' | '1' = carry ? '1' : '0';
+  const carryIntoMSB: '0' | '1' = carries[0] === '1' ? '1' : '0';
+  const overflow = carryIntoMSB !== carryOut;
+
+  const rawUnsigned = parseInt(sumBinary, 2);
+  const signedResultDecimal = sumBinary[0] === '1' ? rawUnsigned - (1 << bits) : rawUnsigned;
   const sumDecimalCheck = aDec + bDec;
+
   let verifyNegativeInversion: { inverted: string; plusOne: string; magnitude: number } | null = null;
   if (sumBinary[0] === '1') {
     const inverted = sumBinary
@@ -1289,7 +1299,10 @@ export function solveU2Addition(aDec: number, bDec: number, bits = 8): U2Additio
     b,
     carriesRow: carries.join(''),
     sumBinary,
-    carryOut: carry ? '1' : '0',
+    carryOut,
+    carryIntoMSB,
+    overflow,
+    signedResultDecimal,
     sumDecimalCheck,
     verifyNegativeInversion,
   };

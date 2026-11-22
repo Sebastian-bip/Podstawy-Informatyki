@@ -6,11 +6,12 @@ import TaskWorkspace from './components/TaskWorkspace.vue';
 // import ReferenceBoardView from './components/ReferenceBoardView.vue';
 import CustomPlayground from './components/CustomPlayground.vue';
 
-type MainTab = 'zestaw-d' | 'zestaw-b' | 'wlasny'; // | 'tablica'
+type MainTab = 'zestaw-d' | 'zestaw-e' | 'zestaw-b' | 'wlasny'; // | 'tablica'
 
 const activeTab = ref<MainTab>('zestaw-d');
-const selectedTaskIdxBySet = ref<Record<'zestaw-d' | 'zestaw-b', number>>({
+const selectedTaskIdxBySet = ref<Record<'zestaw-d' | 'zestaw-e' | 'zestaw-b', number>>({
   'zestaw-d': 0,
+  'zestaw-e': 0,
   'zestaw-b': 0,
 });
 const quizMode = ref(false);
@@ -70,19 +71,18 @@ const toggleMastered = (taskId: string) => {
   masteredTasks.value[taskId] = !masteredTasks.value[taskId];
 };
 
-const currentExamSet = computed(() => {
-  if (activeTab.value === 'zestaw-b') return EXAM_SETS[1];
-  return EXAM_SETS[0];
-});
+const currentExamSet = computed(
+  () => EXAM_SETS.find((s) => s.id === activeTab.value) ?? EXAM_SETS[0]
+);
 
 const currentTaskIndex = computed({
   get: () => {
-    const key = activeTab.value === 'zestaw-b' ? 'zestaw-b' : 'zestaw-d';
-    return selectedTaskIdxBySet.value[key] ?? 0;
+    const id = currentExamSet.value.id;
+    return selectedTaskIdxBySet.value[id] ?? 0;
   },
   set: (idx: number) => {
-    const key = activeTab.value === 'zestaw-b' ? 'zestaw-b' : 'zestaw-d';
-    selectedTaskIdxBySet.value[key] = idx;
+    const id = currentExamSet.value.id;
+    selectedTaskIdxBySet.value[id] = idx;
   },
 });
 
@@ -122,7 +122,7 @@ const selectTab = (tab: MainTab) => {
         </button>
 
         <!-- Zone 2: Clean Single-Line Nav Tabs (Desktop) -->
-        <nav class="hidden md:flex items-center gap-6" aria-label="Zakładki główne">
+        <nav class="hidden md:flex items-center gap-4 lg:gap-6" aria-label="Zakładki główne">
           <button
             type="button"
             @click="selectTab('zestaw-d')"
@@ -134,6 +134,18 @@ const selectTab = (tab: MainTab) => {
             "
           >
             Zestaw D (12 zadań)
+          </button>
+          <button
+            type="button"
+            @click="selectTab('zestaw-e')"
+            class="border-b-2 py-1 text-sm font-medium transition-colors whitespace-nowrap shrink-0"
+            :class="
+              activeTab === 'zestaw-e'
+                ? 'border-blue-700 text-blue-700 font-semibold dark:border-blue-400 dark:text-blue-400'
+                : 'border-transparent text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100'
+            "
+          >
+            Zestaw E (12 zadań)
           </button>
           <button
             type="button"
@@ -204,7 +216,7 @@ const selectTab = (tab: MainTab) => {
       </div>
 
       <!-- Mobile Navigation Strip -->
-      <div class="grid grid-cols-3 gap-1 border-t border-slate-100 px-3 py-1.5 md:hidden dark:border-slate-800">
+      <div class="grid grid-cols-4 gap-1 border-t border-slate-100 px-3 py-1.5 md:hidden dark:border-slate-800">
         <button
           type="button"
           @click="selectTab('zestaw-d')"
@@ -216,6 +228,18 @@ const selectTab = (tab: MainTab) => {
           "
         >
           Zestaw D
+        </button>
+        <button
+          type="button"
+          @click="selectTab('zestaw-e')"
+          class="rounded-md px-2 py-1.5 text-center text-xs font-medium whitespace-nowrap transition-colors"
+          :class="
+            activeTab === 'zestaw-e'
+              ? 'bg-blue-700 text-white dark:bg-blue-600'
+              : 'text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
+          "
+        >
+          Zestaw E
         </button>
         <button
           type="button"
@@ -254,9 +278,9 @@ const selectTab = (tab: MainTab) => {
 
     <!-- Main Container -->
     <main class="mx-auto w-full max-w-7xl flex-1 px-4 py-6 sm:px-6">
-      <!-- PDF Tabs: Zestaw D & Zestaw B -->
+      <!-- Exam Tabs: Zestaw D, Zestaw E & Zestaw B -->
       <div
-        v-if="activeTab === 'zestaw-d' || activeTab === 'zestaw-b'"
+        v-if="activeTab === 'zestaw-d' || activeTab === 'zestaw-e' || activeTab === 'zestaw-b'"
         class="flex flex-col gap-6 lg:flex-row lg:items-start"
       >
         <!-- Mobile Task Picker Toggle -->
@@ -351,7 +375,7 @@ const selectTab = (tab: MainTab) => {
             <div class="font-semibold text-slate-800 dark:text-slate-200 mb-1">Zasady oceniania</div>
             <p>{{ currentExamSet.gradingNote }}</p>
 
-            <details v-if="activeTab === 'zestaw-d'" class="mt-3 border-t border-slate-100 pt-2.5 dark:border-slate-800">
+            <details v-if="activeTab === 'zestaw-d' || activeTab === 'zestaw-e'" class="mt-3 border-t border-slate-100 pt-2.5 dark:border-slate-800">
               <summary class="cursor-pointer font-semibold text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100">
                 Skala ocen (12 punktów)
               </summary>
@@ -401,7 +425,7 @@ const selectTab = (tab: MainTab) => {
     <!-- Quiet Footer -->
     <footer class="border-t border-slate-200 bg-white py-4 dark:border-slate-800 dark:bg-slate-900">
       <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-2 px-4 text-xs text-slate-500 dark:text-slate-400 sm:px-6">
-        <span>Materiały powtórkowe do kolokwium z Podstaw Informatyki (Zestaw D i Zestaw B)</span>
+        <span>Materiały powtórkowe do kolokwium z Podstaw Informatyki (Zestaw D, Zestaw E i Zestaw B)</span>
         <span>Wszystkie rozwiązania opracowane metodą pisemną krok po kroku</span>
       </div>
     </footer>
