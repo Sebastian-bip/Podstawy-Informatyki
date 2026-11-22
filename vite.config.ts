@@ -31,6 +31,7 @@ export default defineConfig(() => {
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
+        'vue-router': path.resolve(__dirname, 'src/shims/vue-router.ts'),
       },
     },
     server: {
