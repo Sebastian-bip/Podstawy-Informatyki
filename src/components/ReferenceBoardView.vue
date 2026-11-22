@@ -50,11 +50,11 @@ const boards = [
 
 <template>
   <div class="space-y-8">
-    <div class="border-b border-slate-200 pb-4">
-      <h1 class="text-2xl font-bold tracking-tight text-slate-900">
+    <div class="border-b border-slate-200 pb-4 dark:border-slate-800">
+      <h1 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
         Wzory zapisu pisemnego z tablicy wykładowczyni
       </h1>
-      <p class="mt-1.5 max-w-3xl text-sm leading-relaxed text-slate-600">
+      <p class="mt-1.5 max-w-3xl text-sm leading-relaxed text-slate-600 dark:text-slate-400">
         Poniżej znajdują się oryginalne zdjęcia z zajęć wraz z objaśnieniem każdego elementu zapisu. Na kolokwium stosuj dokładnie ten układ na kartce, aby uzyskać komplet punktów.
       </p>
     </div>
@@ -63,10 +63,10 @@ const boards = [
       <article
         v-for="board in boards"
         :key="board.id"
-        class="overflow-hidden rounded-xl border border-slate-200 bg-white"
+        class="overflow-hidden rounded-xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900"
       >
         <div class="grid grid-cols-1 lg:grid-cols-12">
-          <div class="flex items-center justify-center bg-slate-100 p-2 lg:col-span-5">
+          <div class="flex items-center justify-center bg-slate-100 p-2 lg:col-span-5 dark:bg-slate-800">
             <img
               :src="board.image"
               :alt="board.title"
@@ -76,16 +76,16 @@ const boards = [
           </div>
           <div class="flex flex-col justify-between p-5 sm:p-6 lg:col-span-7">
             <div>
-              <div class="text-xs font-medium text-blue-700">{{ board.exampleLabel }}</div>
-              <h2 class="mt-1 text-xl font-bold text-slate-900">{{ board.title }}</h2>
+              <div class="text-xs font-medium text-blue-700 dark:text-blue-400">{{ board.exampleLabel }}</div>
+              <h2 class="mt-1 text-xl font-bold text-slate-900 dark:text-slate-100">{{ board.title }}</h2>
 
-              <ul class="mt-4 space-y-2.5 text-sm leading-relaxed text-slate-700">
+              <ul class="mt-4 space-y-2.5 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
                 <li
                   v-for="(rule, idx) in board.rules"
                   :key="idx"
                   class="flex items-start gap-2.5"
                 >
-                  <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded bg-slate-100 font-mono text-xs font-bold text-slate-700">
+                  <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded bg-slate-100 font-mono text-xs font-bold text-slate-700 dark:bg-slate-800 dark:text-slate-200">
                     {{ idx + 1 }}
                   </span>
                   <span>{{ rule }}</span>
@@ -93,11 +93,11 @@ const boards = [
               </ul>
             </div>
 
-            <div v-if="board.canSimulate !== 'none'" class="mt-5 border-t border-slate-100 pt-4">
+            <div v-if="board.canSimulate !== 'none'" class="mt-5 border-t border-slate-100 pt-4 dark:border-slate-800">
               <button
                 type="button"
                 @click="activePhotoExample = activePhotoExample === board.canSimulate ? 'none' : board.canSimulate"
-                class="rounded-lg bg-blue-700 px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-blue-800 whitespace-nowrap shrink-0"
+                class="rounded-lg bg-blue-700 px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-500 whitespace-nowrap shrink-0"
               >
                 {{
                   activePhotoExample === board.canSimulate
@@ -111,14 +111,14 @@ const boards = [
 
         <div
           v-if="board.canSimulate === 'div' && activePhotoExample === 'div'"
-          class="border-t border-slate-200 bg-slate-50 p-5 sm:p-6"
+          class="border-t border-slate-200 bg-slate-50 p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-950/60"
         >
           <WhiteboardBinaryDivision dividend="11110101011" divisor="1101" />
         </div>
 
         <div
           v-if="board.canSimulate === 'hex' && activePhotoExample === 'hex'"
-          class="border-t border-slate-200 bg-slate-50 p-5 sm:p-6"
+          class="border-t border-slate-200 bg-slate-50 p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-950/60"
         >
           <WhiteboardHexMult a-hex="3E9" b-hex="2B7" />
         </div>

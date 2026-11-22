@@ -74,8 +74,8 @@ const currentExplanation = computed(() => {
     />
 
     <!-- Whiteboard grid mimicking image_29e0f29a.png -->
-    <div class="notebook-grid overflow-x-auto rounded-xl border border-slate-200 p-5 sm:p-6">
-      <div class="mb-4 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500">
+    <div class="notebook-grid overflow-x-auto rounded-xl border border-slate-200 p-5 sm:p-6 dark:border-slate-800">
+      <div class="mb-4 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500 dark:text-slate-400">
         <span>Zapis pisemny zgodny z tablicą: słownik po lewej, słupek w środku, brudnopis ÷ 16 po prawej</span>
         <span class="font-mono tabular-nums">
           Sprawdzenie: {{ result.decimalCheck.aDec }} · {{ result.decimalCheck.bDec }} = {{ result.decimalCheck.productDec }}₁₀
@@ -85,16 +85,16 @@ const currentExplanation = computed(() => {
       <div class="grid grid-cols-1 gap-6 lg:grid-cols-12">
         <!-- Left column: A-10 .. F-15 Legend -->
         <div class="lg:col-span-2">
-          <div class="rounded-lg border border-slate-200 bg-white/90 p-3">
-            <div class="mb-2 text-xs font-semibold text-slate-700">Słownik cyfr</div>
+          <div class="rounded-lg border border-slate-200 bg-white/90 p-3 dark:border-slate-700 dark:bg-slate-900/90">
+            <div class="mb-2 text-xs font-semibold text-slate-700 dark:text-slate-300">Słownik cyfr</div>
             <div class="grid grid-cols-3 gap-1.5 font-mono text-sm lg:grid-cols-1 tabular-nums">
               <div
                 v-for="item in HEX_LEGEND"
                 :key="item.hex"
-                class="flex items-center justify-between rounded bg-slate-50 px-2 py-0.5 text-slate-800"
+                class="flex items-center justify-between rounded bg-slate-50 px-2 py-0.5 text-slate-800 dark:bg-slate-800 dark:text-slate-200"
               >
-                <span class="font-bold text-blue-800">{{ item.hex }}</span>
-                <span class="text-slate-400">–</span>
+                <span class="font-bold text-blue-800 dark:text-blue-400">{{ item.hex }}</span>
+                <span class="text-slate-400 dark:text-slate-500">–</span>
                 <span>{{ item.dec }}</span>
               </div>
             </div>
@@ -107,7 +107,7 @@ const currentExplanation = computed(() => {
             <!-- Top carries from active partial product -->
             <div
               v-if="currentStep <= result.partialProducts.length"
-              class="flex justify-end text-xs text-amber-700"
+              class="flex justify-end text-xs text-amber-700 dark:text-amber-400"
             >
               <span
                 v-for="(ch, idx) in padLeftChars(result.aHex, 0, maxColWidth)"
@@ -125,7 +125,7 @@ const currentExplanation = computed(() => {
             </div>
 
             <!-- Operand A -->
-            <div class="flex justify-end font-semibold text-slate-900">
+            <div class="flex justify-end font-semibold text-slate-900 dark:text-slate-100">
               <span
                 v-for="(ch, idx) in padLeftChars(result.aHex, 0, maxColWidth)"
                 :key="'a-' + idx"
@@ -136,7 +136,7 @@ const currentExplanation = computed(() => {
             </div>
 
             <!-- Operand B with multiply symbol -->
-            <div class="flex justify-end border-b-2 border-slate-900 pb-1 font-semibold text-slate-900">
+            <div class="flex justify-end border-b-2 border-slate-900 pb-1 font-semibold text-slate-900 dark:border-slate-200 dark:text-slate-100">
               <span
                 v-for="(ch, idx) in padLeftChars(result.bHex, 0, maxColWidth)"
                 :key="'b-' + idx"
@@ -144,7 +144,7 @@ const currentExplanation = computed(() => {
               >
                 <span
                   v-if="idx === maxColWidth - result.bHex.length - 1"
-                  class="text-base font-bold text-slate-600"
+                  class="text-base font-bold text-slate-600 dark:text-slate-400"
                   >·</span
                 >
                 {{ ch }}
@@ -159,8 +159,8 @@ const currentExplanation = computed(() => {
                 class="flex justify-end transition-colors"
                 :class="
                   pIdx === currentStep - 1 && !showFinalSum
-                    ? 'rounded bg-blue-50/90 text-blue-900 font-semibold'
-                    : 'text-slate-800'
+                    ? 'rounded bg-blue-50/90 text-blue-900 font-semibold dark:bg-blue-950/70 dark:text-blue-200'
+                    : 'text-slate-800 dark:text-slate-200'
                 "
               >
                 <span
@@ -170,7 +170,7 @@ const currentExplanation = computed(() => {
                 >
                   <template v-if="ch !== ''">{{ ch }}</template>
                   <template v-else-if="idx >= maxColWidth - prod.shift && idx < maxColWidth">
-                    <span class="text-xs text-slate-300">·</span>
+                    <span class="text-xs text-slate-300 dark:text-slate-600">·</span>
                   </template>
                 </span>
               </div>
@@ -179,7 +179,7 @@ const currentExplanation = computed(() => {
             <!-- Final Sum -->
             <div
               v-if="showFinalSum"
-              class="flex justify-end border-t-2 border-slate-900 pt-1.5 font-bold text-emerald-700"
+              class="flex justify-end border-t-2 border-slate-900 pt-1.5 font-bold text-emerald-700 dark:border-slate-200 dark:text-emerald-400"
             >
               <span
                 v-for="(ch, idx) in padLeftChars(result.resultHex, 0, maxColWidth)"
@@ -194,8 +194,8 @@ const currentExplanation = computed(() => {
 
         <!-- Right column: Scratchpad ÷ 16 (just like 63 | 3, 101 | 6 on the whiteboard!) -->
         <div class="lg:col-span-5">
-          <div class="rounded-lg border border-slate-200 bg-white/95 p-3.5">
-            <div class="mb-2 text-xs font-semibold text-slate-700">
+          <div class="rounded-lg border border-slate-200 bg-white/95 p-3.5 dark:border-slate-700 dark:bg-slate-900/95">
+            <div class="mb-2 text-xs font-semibold text-slate-700 dark:text-slate-300">
               Brudnopis obliczeń na boku (wartość dziesiętna → dzielenie przez 16)
             </div>
 
@@ -206,24 +206,24 @@ const currentExplanation = computed(() => {
                 class="rounded-md border p-2.5 text-xs"
                 :class="
                   pIdx === currentStep - 1 && !showFinalSum
-                    ? 'border-blue-300 bg-blue-50/50'
-                    : 'border-slate-100 bg-slate-50/70'
+                    ? 'border-blue-300 bg-blue-50/50 dark:border-blue-700 dark:bg-blue-950/50'
+                    : 'border-slate-100 bg-slate-50/70 dark:border-slate-800 dark:bg-slate-800/60'
                 "
               >
-                <div class="mb-1.5 font-semibold text-slate-800">
+                <div class="mb-1.5 font-semibold text-slate-800 dark:text-slate-200">
                   Mnożenie przez {{ prod.multiplierDigit }} ({{ prod.multiplierDec }}):
                 </div>
                 <div class="space-y-1 font-mono text-xs tabular-nums">
                   <div
                     v-for="(entry, eIdx) in prod.scratchpad"
                     :key="'e-' + eIdx"
-                    class="flex flex-wrap items-center justify-between gap-2 text-slate-700"
+                    class="flex flex-wrap items-center justify-between gap-2 text-slate-700 dark:text-slate-300"
                   >
-                    <span>{{ entry.expr }} = <strong class="text-slate-900">{{ entry.totalDec }}</strong></span>
-                    <span class="text-slate-600">
+                    <span>{{ entry.expr }} = <strong class="text-slate-900 dark:text-slate-100">{{ entry.totalDec }}</strong></span>
+                    <span class="text-slate-600 dark:text-slate-400">
                       {{ entry.carryOut }}·16 + {{ entry.digitRem }} → wpisz
-                      <strong class="text-blue-700">{{ entry.digitHex }}</strong>, przenieś
-                      <strong class="text-amber-700">{{ entry.carryOut }}</strong>
+                      <strong class="text-blue-700 dark:text-blue-400">{{ entry.digitHex }}</strong>, przenieś
+                      <strong class="text-amber-700 dark:text-amber-400">{{ entry.carryOut }}</strong>
                     </span>
                   </div>
                 </div>
@@ -232,12 +232,12 @@ const currentExplanation = computed(() => {
               <!-- Addition breakdown -->
               <div
                 v-if="showFinalSum"
-                class="rounded-md border border-emerald-200 bg-emerald-50/50 p-2.5 text-xs"
+                class="rounded-md border border-emerald-200 bg-emerald-50/50 p-2.5 text-xs dark:border-emerald-800 dark:bg-emerald-950/40"
               >
-                <div class="mb-1.5 font-semibold text-emerald-900">
+                <div class="mb-1.5 font-semibold text-emerald-900 dark:text-emerald-300">
                   Sumowanie kolumn od prawej do lewej (w bazie 16):
                 </div>
-                <ul class="space-y-1 font-mono text-xs text-slate-700 tabular-nums">
+                <ul class="space-y-1 font-mono text-xs text-slate-700 dark:text-slate-300 tabular-nums">
                   <li v-for="col in result.additionColumns" :key="'ac-' + col.colFromRight">
                     {{ col.explanation }}
                   </li>

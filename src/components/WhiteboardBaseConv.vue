@@ -95,45 +95,45 @@ const explanation = computed(() => {
     <!-- Mode 1: Decimal to Binary (Integer + Fraction/Periodic) -->
     <div
       v-if="mode === 'decimal-to-binary' && decToBinResult"
-      class="notebook-grid rounded-xl border border-slate-200 p-5 sm:p-6"
+      class="notebook-grid rounded-xl border border-slate-200 p-5 sm:p-6 dark:border-slate-800"
     >
       <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <!-- Part 1: Integer division ladder -->
-        <div class="rounded-lg border border-slate-200 bg-white p-4">
-          <div class="mb-3 flex items-center justify-between border-b border-slate-100 pb-2">
-            <span class="text-xs font-semibold text-slate-700">
+        <div class="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
+          <div class="mb-3 flex items-center justify-between border-b border-slate-100 pb-2 dark:border-slate-800">
+            <span class="text-xs font-semibold text-slate-700 dark:text-slate-300">
               1. Część całkowita ({{ decToBinResult.integerPart }}) — dzielenie przez 2
             </span>
-            <span class="text-xs font-medium text-blue-700">Czytaj od dołu ↑</span>
+            <span class="text-xs font-medium text-blue-700 dark:text-blue-400">Czytaj od dołu ↑</span>
           </div>
 
           <div class="space-y-1 font-mono text-sm tabular-nums">
             <div
               v-for="(st, idx) in decToBinResult.intSteps"
               :key="'int-' + idx"
-              class="grid grid-cols-12 items-center rounded px-2 py-1 odd:bg-slate-50"
+              class="grid grid-cols-12 items-center rounded px-2 py-1 odd:bg-slate-50 dark:odd:bg-slate-800/60"
             >
-              <span class="col-span-5 text-slate-800">{{ st.n }} : 2 = {{ st.quotient }}</span>
-              <span class="col-span-3 text-slate-500">reszta</span>
-              <span class="col-span-4 text-right font-bold text-blue-700">{{ st.digit }}</span>
+              <span class="col-span-5 text-slate-800 dark:text-slate-200">{{ st.n }} : 2 = {{ st.quotient }}</span>
+              <span class="col-span-3 text-slate-500 dark:text-slate-400">reszta</span>
+              <span class="col-span-4 text-right font-bold text-blue-700 dark:text-blue-400">{{ st.digit }}</span>
             </div>
           </div>
 
-          <div class="mt-3 border-t border-slate-200 pt-2.5 font-mono text-sm">
-            Część całkowita: <strong class="text-slate-900">{{ decToBinResult.integerBinary }}₂</strong>
+          <div class="mt-3 border-t border-slate-200 pt-2.5 font-mono text-sm dark:border-slate-700 dark:text-slate-300">
+            Część całkowita: <strong class="text-slate-900 dark:text-slate-100">{{ decToBinResult.integerBinary }}₂</strong>
           </div>
         </div>
 
         <!-- Part 2: Fractional multiplication -->
         <div
           v-if="decToBinResult.hasFraction && currentStep >= 2"
-          class="rounded-lg border border-slate-200 bg-white p-4"
+          class="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900"
         >
-          <div class="mb-3 flex items-center justify-between border-b border-slate-100 pb-2">
-            <span class="text-xs font-semibold text-slate-700">
+          <div class="mb-3 flex items-center justify-between border-b border-slate-100 pb-2 dark:border-slate-800">
+            <span class="text-xs font-semibold text-slate-700 dark:text-slate-300">
               2. Część ułamkowa — mnożenie przez 2
             </span>
-            <span class="text-xs font-medium text-emerald-700">Czytaj od góry ↓</span>
+            <span class="text-xs font-medium text-emerald-700 dark:text-emerald-400">Czytaj od góry ↓</span>
           </div>
 
           <div class="space-y-1.5 font-mono text-sm tabular-nums">
@@ -143,29 +143,29 @@ const explanation = computed(() => {
               class="flex flex-wrap items-center justify-between gap-2 rounded px-2.5 py-1.5"
               :class="
                 fst.repeatsStartStep !== null
-                  ? 'border border-amber-300 bg-amber-50/70'
-                  : 'odd:bg-slate-50'
+                  ? 'border border-amber-300 bg-amber-50/70 dark:border-amber-700 dark:bg-amber-950/40'
+                  : 'odd:bg-slate-50 dark:odd:bg-slate-800/60'
               "
             >
-              <span class="text-slate-800">
+              <span class="text-slate-800 dark:text-slate-200">
                 {{ fst.currentFracStr }} · 2 = {{ fst.multipliedStr }}
               </span>
               <span class="flex items-center gap-2">
-                <span class="text-xs text-slate-500">bit:</span>
-                <strong class="text-base text-emerald-700">{{ fst.integerBit }}</strong>
+                <span class="text-xs text-slate-500 dark:text-slate-400">bit:</span>
+                <strong class="text-base text-emerald-700 dark:text-emerald-400">{{ fst.integerBit }}</strong>
               </span>
               <div
                 v-if="fst.repeatsStartStep !== null"
-                class="w-full text-xs font-sans font-medium text-amber-800"
+                class="w-full text-xs font-sans font-medium text-amber-800 dark:text-amber-300"
               >
                 Reszta {{ fst.nextFracStr }} powtarza się od kroku {{ fst.repeatsStartStep }} — zamknięcie okresu!
               </div>
             </div>
           </div>
 
-          <div class="mt-3 border-t border-slate-200 pt-2.5 font-mono text-sm">
+          <div class="mt-3 border-t border-slate-200 pt-2.5 font-mono text-sm dark:border-slate-700 dark:text-slate-300">
             Część po przecinku:
-            <strong class="text-emerald-700">
+            <strong class="text-emerald-700 dark:text-emerald-400">
               ,{{ decToBinResult.nonRepeatingBits }}<template v-if="decToBinResult.isRepeating">({{ decToBinResult.repeatingBits }})</template>
             </strong>
           </div>
@@ -174,7 +174,7 @@ const explanation = computed(() => {
 
       <div
         v-if="currentStep >= totalSteps"
-        class="mt-5 rounded-lg border border-emerald-300 bg-emerald-50/70 px-4 py-3 font-mono text-base font-bold text-slate-900"
+        class="mt-5 rounded-lg border border-emerald-300 bg-emerald-50/70 px-4 py-3 font-mono text-base font-bold text-slate-900 dark:border-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-200"
       >
         Wynik końcowy: ({{ decToBinResult.formattedBinary }})₂
       </div>
@@ -183,36 +183,36 @@ const explanation = computed(() => {
     <!-- Mode 2: Multi-base conversions (4, 8, 16) -->
     <div
       v-if="mode === 'base-conversions' && multiBaseResult"
-      class="notebook-grid rounded-xl border border-slate-200 p-5 sm:p-6"
+      class="notebook-grid rounded-xl border border-slate-200 p-5 sm:p-6 dark:border-slate-800"
     >
       <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
         <div
           v-for="(conv, cIdx) in multiBaseResult.slice(0, currentStep)"
           :key="'conv-' + conv.targetBase"
-          class="rounded-lg border bg-white p-4 transition-colors"
-          :class="cIdx === currentStep - 1 ? 'border-blue-300' : 'border-slate-200'"
+          class="rounded-lg border bg-white p-4 transition-colors dark:bg-slate-900"
+          :class="cIdx === currentStep - 1 ? 'border-blue-300 dark:border-blue-600' : 'border-slate-200 dark:border-slate-700'"
         >
-          <div class="mb-3 flex items-center justify-between border-b border-slate-100 pb-2">
-            <span class="text-xs font-semibold text-slate-800">
+          <div class="mb-3 flex items-center justify-between border-b border-slate-100 pb-2 dark:border-slate-800">
+            <span class="text-xs font-semibold text-slate-800 dark:text-slate-200">
               System o podstawie {{ conv.targetBase }}
             </span>
-            <span class="text-xs font-medium text-blue-700">Od dołu ↑</span>
+            <span class="text-xs font-medium text-blue-700 dark:text-blue-400">Od dołu ↑</span>
           </div>
 
           <div class="space-y-1 font-mono text-xs sm:text-sm tabular-nums">
             <div
               v-for="(st, idx) in conv.steps"
               :key="'bs-' + conv.targetBase + '-' + idx"
-              class="flex items-center justify-between rounded px-2 py-1 odd:bg-slate-50"
+              class="flex items-center justify-between rounded px-2 py-1 odd:bg-slate-50 dark:odd:bg-slate-800/60"
             >
-              <span class="text-slate-700">{{ st.n }} : {{ st.base }} = {{ st.quotient }}</span>
-              <span class="font-bold text-blue-700">
+              <span class="text-slate-700 dark:text-slate-300">{{ st.n }} : {{ st.base }} = {{ st.quotient }}</span>
+              <span class="font-bold text-blue-700 dark:text-blue-400">
                 r. {{ st.remainder }}<template v-if="st.remainder >= 10"> ({{ st.digit }})</template>
               </span>
             </div>
           </div>
 
-          <div class="mt-3 border-t border-slate-200 pt-2.5 font-mono text-sm font-bold text-emerald-700">
+          <div class="mt-3 border-t border-slate-200 pt-2.5 font-mono text-sm font-bold text-emerald-700 dark:border-slate-700 dark:text-emerald-400">
             Wynik: ({{ conv.result }})<sub>{{ conv.targetBase }}</sub>
           </div>
         </div>
@@ -222,12 +222,12 @@ const explanation = computed(() => {
     <!-- Mode 3: Any base -> 10 -> Target base -->
     <div
       v-if="mode === 'any-base-to-any-base' && anyBaseResult"
-      class="notebook-grid rounded-xl border border-slate-200 p-5 sm:p-6"
+      class="notebook-grid rounded-xl border border-slate-200 p-5 sm:p-6 dark:border-slate-800"
     >
       <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <!-- Step 1: Positional expansion -->
-        <div class="rounded-lg border border-slate-200 bg-white p-4">
-          <div class="mb-3 border-b border-slate-100 pb-2 text-xs font-semibold text-slate-800">
+        <div class="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
+          <div class="mb-3 border-b border-slate-100 pb-2 text-xs font-semibold text-slate-800 dark:border-slate-800 dark:text-slate-200">
             Etap 1: Zamiana ({{ anyBaseResult.sourceStr }})<sub>{{ anyBaseResult.fromBase }}</sub> na system dziesiętny
           </div>
 
@@ -235,49 +235,49 @@ const explanation = computed(() => {
             <div
               v-for="term in anyBaseResult.positionalTerms"
               :key="'term-' + term.power"
-              class="flex items-center justify-between rounded bg-slate-50 px-3 py-1.5"
+              class="flex items-center justify-between rounded bg-slate-50 px-3 py-1.5 dark:bg-slate-800/70"
             >
-              <span>
-                <strong class="text-blue-700">{{ term.digit }}</strong>
-                <span v-if="term.digitValue >= 10" class="text-slate-500">({{ term.digitValue }})</span>
+              <span class="text-slate-800 dark:text-slate-200">
+                <strong class="text-blue-700 dark:text-blue-400">{{ term.digit }}</strong>
+                <span v-if="term.digitValue >= 10" class="text-slate-500 dark:text-slate-400">({{ term.digitValue }})</span>
                 · {{ anyBaseResult.fromBase }}<sup>{{ term.power }}</sup>
-                <span class="text-slate-500"> (= {{ term.basePowerVal }})</span>
+                <span class="text-slate-500 dark:text-slate-400"> (= {{ term.basePowerVal }})</span>
               </span>
-              <strong class="text-slate-900">{{ term.termProduct }}</strong>
+              <strong class="text-slate-900 dark:text-slate-100">{{ term.termProduct }}</strong>
             </div>
           </div>
 
-          <div class="mt-3 border-t border-slate-200 pt-2.5 font-mono text-sm">
-            Suma dziesiętna: <strong class="text-blue-800">{{ anyBaseResult.decimalValue }}₁₀</strong>
+          <div class="mt-3 border-t border-slate-200 pt-2.5 font-mono text-sm dark:border-slate-700 dark:text-slate-300">
+            Suma dziesiętna: <strong class="text-blue-800 dark:text-blue-400">{{ anyBaseResult.decimalValue }}₁₀</strong>
           </div>
         </div>
 
         <!-- Step 2: Repeated division to target base -->
         <div
           v-if="currentStep >= 2"
-          class="rounded-lg border border-slate-200 bg-white p-4"
+          class="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900"
         >
-          <div class="mb-3 flex items-center justify-between border-b border-slate-100 pb-2">
-            <span class="text-xs font-semibold text-slate-800">
+          <div class="mb-3 flex items-center justify-between border-b border-slate-100 pb-2 dark:border-slate-800">
+            <span class="text-xs font-semibold text-slate-800 dark:text-slate-200">
               Etap 2: Zamiana {{ anyBaseResult.decimalValue }}₁₀ na podstawę {{ anyBaseResult.toBase }}
             </span>
-            <span class="text-xs font-medium text-blue-700">Czytaj od dołu ↑</span>
+            <span class="text-xs font-medium text-blue-700 dark:text-blue-400">Czytaj od dołu ↑</span>
           </div>
 
           <div class="space-y-1 font-mono text-sm tabular-nums">
             <div
               v-for="(st, idx) in anyBaseResult.divisionSteps"
               :key="'div-' + idx"
-              class="flex items-center justify-between rounded px-2.5 py-1.5 odd:bg-slate-50"
+              class="flex items-center justify-between rounded px-2.5 py-1.5 odd:bg-slate-50 dark:odd:bg-slate-800/60"
             >
-              <span>{{ st.n }} : {{ st.base }} = {{ st.quotient }}</span>
-              <strong class="text-emerald-700">reszta {{ st.digit }}</strong>
+              <span class="text-slate-800 dark:text-slate-200">{{ st.n }} : {{ st.base }} = {{ st.quotient }}</span>
+              <strong class="text-emerald-700 dark:text-emerald-400">reszta {{ st.digit }}</strong>
             </div>
           </div>
 
           <div
             v-if="currentStep >= 3"
-            class="mt-3 border-t border-slate-200 pt-2.5 font-mono text-base font-bold text-emerald-700"
+            class="mt-3 border-t border-slate-200 pt-2.5 font-mono text-base font-bold text-emerald-700 dark:border-slate-700 dark:text-emerald-400"
           >
             Wynik końcowy: ({{ anyBaseResult.resultStr }})<sub>{{ anyBaseResult.toBase }}</sub>
           </div>

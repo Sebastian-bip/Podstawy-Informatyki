@@ -58,24 +58,24 @@ const explanation = computed(() => {
       :explanation="explanation"
     />
 
-    <div class="notebook-grid rounded-xl border border-slate-200 p-5 sm:p-6">
+    <div class="notebook-grid rounded-xl border border-slate-200 p-5 sm:p-6 dark:border-slate-800">
       <!-- 16-bit Field Diagram -->
       <div class="mb-6 overflow-x-auto">
         <div class="inline-flex min-w-max gap-3 font-mono tabular-nums">
           <!-- Sign bit (1) -->
-          <div class="rounded-lg border border-rose-300 bg-rose-50/70 p-3 text-center">
-            <div class="mb-1 text-[11px] font-sans font-semibold text-rose-800">Znak (1 bit)</div>
-            <div class="text-xl font-bold text-rose-900">
+          <div class="rounded-lg border border-rose-300 bg-rose-50/70 p-3 text-center dark:border-rose-700 dark:bg-rose-950/50">
+            <div class="mb-1 text-[11px] font-sans font-semibold text-rose-800 dark:text-rose-300">Znak (1 bit)</div>
+            <div class="text-xl font-bold text-rose-900 dark:text-rose-200">
               {{ mode === 'decode' ? decodeRes?.signBit : encodeRes?.signBit }}
             </div>
           </div>
 
           <!-- Exponent (5 bits) -->
-          <div class="rounded-lg border border-blue-300 bg-blue-50/70 p-3 text-center">
-            <div class="mb-1 text-[11px] font-sans font-semibold text-blue-800">
+          <div class="rounded-lg border border-blue-300 bg-blue-50/70 p-3 text-center dark:border-blue-700 dark:bg-blue-950/50">
+            <div class="mb-1 text-[11px] font-sans font-semibold text-blue-800 dark:text-blue-300">
               Cecha E (5 bitów)
             </div>
-            <div class="text-xl font-bold tracking-widest text-blue-900">
+            <div class="text-xl font-bold tracking-widest text-blue-900 dark:text-blue-200">
               {{
                 mode === 'decode'
                   ? decodeRes?.exponentBits
@@ -87,11 +87,11 @@ const explanation = computed(() => {
           </div>
 
           <!-- Mantissa (10 bits) -->
-          <div class="rounded-lg border border-emerald-300 bg-emerald-50/70 p-3 text-center">
-            <div class="mb-1 text-[11px] font-sans font-semibold text-emerald-800">
+          <div class="rounded-lg border border-emerald-300 bg-emerald-50/70 p-3 text-center dark:border-emerald-700 dark:bg-emerald-950/50">
+            <div class="mb-1 text-[11px] font-sans font-semibold text-emerald-800 dark:text-emerald-300">
               Część ułamkowa mantysy (10 bitów)
             </div>
-            <div class="text-xl font-bold tracking-widest text-emerald-900">
+            <div class="text-xl font-bold tracking-widest text-emerald-900 dark:text-emerald-200">
               {{
                 mode === 'decode'
                   ? decodeRes?.mantissaBits
@@ -106,8 +106,8 @@ const explanation = computed(() => {
 
       <!-- Decode Breakdown -->
       <div v-if="mode === 'decode' && decodeRes" class="space-y-2.5 text-sm">
-        <div class="rounded-lg border border-slate-200 bg-white px-4 py-2.5">
-          <span class="font-semibold text-rose-800">1. Znak (S):</span>
+        <div class="rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-slate-800 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200">
+          <span class="font-semibold text-rose-800 dark:text-rose-400">1. Znak (S):</span>
           <span class="font-mono ml-2">
             S = {{ decodeRes.signBit }} → (−1)<sup>{{ decodeRes.signBit }}</sup> =
             {{ decodeRes.signMultiplier === 1 ? '+1 (dodatnia)' : '−1 (ujemna)' }}
@@ -116,9 +116,9 @@ const explanation = computed(() => {
 
         <div
           v-if="currentStep >= 2"
-          class="rounded-lg border border-slate-200 bg-white px-4 py-2.5"
+          class="rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-slate-800 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
         >
-          <span class="font-semibold text-blue-800">2. Cecha i wykładnik (e):</span>
+          <span class="font-semibold text-blue-800 dark:text-blue-400">2. Cecha i wykładnik (e):</span>
           <span class="font-mono ml-2">
             E = ({{ decodeRes.exponentBits }})₂ = {{ decodeRes.exponentBiased }}₁₀ → e =
             {{ decodeRes.exponentBiased }} − {{ decodeRes.bias }} =
@@ -128,10 +128,10 @@ const explanation = computed(() => {
 
         <div
           v-if="currentStep >= 3"
-          class="rounded-lg border border-slate-200 bg-white px-4 py-2.5"
+          class="rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-slate-800 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
         >
-          <span class="font-semibold text-emerald-800">3. Mantysa i przesunięcie przecinka:</span>
-          <div class="mt-1 font-mono text-slate-800">
+          <span class="font-semibold text-emerald-800 dark:text-emerald-400">3. Mantysa i przesunięcie przecinka:</span>
+          <div class="mt-1 font-mono text-slate-800 dark:text-slate-200">
             M = {{ decodeRes.mantissaBinary }}₂ (z domyślną jedynką „1,”) · 2<sup>{{ decodeRes.exponentActual }}</sup>
             = <strong>{{ decodeRes.denormalizedBinary }}₂</strong>
           </div>
@@ -139,7 +139,7 @@ const explanation = computed(() => {
 
         <div
           v-if="currentStep >= 4"
-          class="rounded-lg border border-emerald-300 bg-emerald-50/70 px-4 py-3 font-mono text-base font-bold text-slate-900"
+          class="rounded-lg border border-emerald-300 bg-emerald-50/70 px-4 py-3 font-mono text-base font-bold text-slate-900 dark:border-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-200"
         >
           4. Wartość dziesiętna: {{ decodeRes.formattedPolish }}
         </div>
@@ -147,8 +147,8 @@ const explanation = computed(() => {
 
       <!-- Encode Breakdown -->
       <div v-if="mode === 'encode' && encodeRes" class="space-y-2.5 text-sm">
-        <div class="rounded-lg border border-slate-200 bg-white px-4 py-2.5">
-          <span class="font-semibold text-rose-800">1. Znak i moduł binarny:</span>
+        <div class="rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-slate-800 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200">
+          <span class="font-semibold text-rose-800 dark:text-rose-400">1. Znak i moduł binarny:</span>
           <span class="font-mono ml-2">
             S = {{ encodeRes.signBit }}, moduł |{{ encodeRes.inputStr }}| = {{ encodeRes.absBinary }}₂
           </span>
@@ -156,9 +156,9 @@ const explanation = computed(() => {
 
         <div
           v-if="currentStep >= 2"
-          class="rounded-lg border border-slate-200 bg-white px-4 py-2.5"
+          class="rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-slate-800 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
         >
-          <span class="font-semibold text-slate-800">2. Normalizacja (postać 1,xxxx · 2^e):</span>
+          <span class="font-semibold text-slate-800 dark:text-slate-200">2. Normalizacja (postać 1,xxxx · 2^e):</span>
           <span class="font-mono ml-2">
             {{ encodeRes.absBinary }}₂ = <strong>{{ encodeRes.normalizedBinary }}</strong> (e = {{ encodeRes.exponentActual }})
           </span>
@@ -166,9 +166,9 @@ const explanation = computed(() => {
 
         <div
           v-if="currentStep >= 3"
-          class="rounded-lg border border-slate-200 bg-white px-4 py-2.5"
+          class="rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-slate-800 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
         >
-          <span class="font-semibold text-blue-800">3. Cecha z biasem:</span>
+          <span class="font-semibold text-blue-800 dark:text-blue-400">3. Cecha z biasem:</span>
           <span class="font-mono ml-2">
             E = {{ encodeRes.exponentActual }} + {{ encodeRes.bias }} = {{ encodeRes.exponentBiased }}₁₀ =
             <strong>{{ encodeRes.exponentBits }}₂</strong>
@@ -177,10 +177,10 @@ const explanation = computed(() => {
 
         <div
           v-if="currentStep >= 4"
-          class="rounded-lg border border-emerald-300 bg-emerald-50/70 px-4 py-3 font-mono text-base font-bold text-slate-900"
+          class="rounded-lg border border-emerald-300 bg-emerald-50/70 px-4 py-3 font-mono text-base font-bold text-slate-900 dark:border-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-200"
         >
           4. Ciąg 16-bitowy: {{ encodeRes.bits16 }}
-          <span class="ml-2 text-xs font-normal text-slate-600">({{ encodeRes.bitsGrouped }})</span>
+          <span class="ml-2 text-xs font-normal text-slate-600 dark:text-emerald-300/80">({{ encodeRes.bitsGrouped }})</span>
         </div>
       </div>
     </div>

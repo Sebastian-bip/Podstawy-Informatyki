@@ -46,15 +46,15 @@ const isDone = computed(() => currentStep.value >= result.value.steps.length && 
       :explanation="activeStep?.explanation ?? ''"
     />
 
-    <div class="notebook-grid rounded-xl border border-slate-200 p-5 sm:p-6">
+    <div class="notebook-grid rounded-xl border border-slate-200 p-5 sm:p-6 dark:border-slate-800">
       <!-- Live Tape Visualizer -->
       <div class="mb-6">
-        <div class="mb-2 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-600">
+        <div class="mb-2 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-600 dark:text-slate-400">
           <span>
             Stan maszyny po kroku {{ currentStep }}:
             <strong
               class="font-mono text-sm"
-              :class="displayedState === 'k' ? 'text-emerald-700' : 'text-blue-700'"
+              :class="displayedState === 'k' ? 'text-emerald-700 dark:text-emerald-400' : 'text-blue-700 dark:text-blue-400'"
             >
               {{ displayedState }}{{ displayedState === 'k' ? ' (KONIEC)' : '' }}
             </strong>
@@ -69,22 +69,22 @@ const isDone = computed(() => currentStep.value >= result.value.steps.length && 
               :key="'cell-' + idx"
               class="flex flex-col items-center"
             >
-              <span class="mb-1 font-mono text-[11px] text-slate-400 tabular-nums">{{ idx + 1 }}</span>
+              <span class="mb-1 font-mono text-[11px] text-slate-400 dark:text-slate-500 tabular-nums">{{ idx + 1 }}</span>
               <div
                 class="flex h-12 w-11 items-center justify-center rounded-lg border-2 font-mono text-lg font-bold transition-colors"
                 :class="
                   idx === displayedHead
                     ? isDone
-                      ? 'border-emerald-600 bg-emerald-50 text-emerald-900'
-                      : 'border-blue-600 bg-blue-50 text-blue-900'
-                    : 'border-slate-300 bg-white text-slate-900'
+                      ? 'border-emerald-600 bg-emerald-50 text-emerald-900 dark:border-emerald-500 dark:bg-emerald-950/70 dark:text-emerald-200'
+                      : 'border-blue-600 bg-blue-50 text-blue-900 dark:border-blue-500 dark:bg-blue-950/70 dark:text-blue-200'
+                    : 'border-slate-300 bg-white text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100'
                 "
               >
                 {{ sym }}
               </div>
               <span
                 class="mt-1 font-mono text-xs font-bold"
-                :class="idx === displayedHead ? 'text-blue-700' : 'text-transparent'"
+                :class="idx === displayedHead ? 'text-blue-700 dark:text-blue-400' : 'text-transparent'"
               >
                 ▲
               </span>
@@ -97,12 +97,12 @@ const isDone = computed(() => currentStep.value >= result.value.steps.length && 
       <div class="grid grid-cols-1 gap-6 lg:grid-cols-12">
         <!-- Transition Table -->
         <div class="lg:col-span-5">
-          <div class="overflow-hidden rounded-lg border border-slate-200 bg-white">
-            <div class="border-b border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700">
+          <div class="overflow-hidden rounded-lg border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900">
+            <div class="border-b border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700 dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-300">
               Tabela przejść (podświetlona aktywna reguła)
             </div>
             <table class="w-full text-center font-mono text-xs tabular-nums">
-              <thead class="border-b border-slate-200 bg-slate-50/70 text-slate-600">
+              <thead class="border-b border-slate-200 bg-slate-50/70 text-slate-600 dark:border-slate-700 dark:bg-slate-800/40 dark:text-slate-400">
                 <tr>
                   <th class="py-1.5 px-2">Stan</th>
                   <th class="py-1.5 px-2">Odczyt</th>
@@ -111,14 +111,14 @@ const isDone = computed(() => currentStep.value >= result.value.steps.length && 
                   <th class="py-1.5 px-2">Nast.</th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-slate-100">
+              <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
                 <tr
                   v-for="(rule, rIdx) in rules"
                   :key="'r-' + rIdx"
                   :class="
                     activeStep?.matchedRuleIndex === rIdx
-                      ? 'bg-blue-100/80 font-bold text-blue-950'
-                      : 'text-slate-700'
+                      ? 'bg-blue-100/80 font-bold text-blue-950 dark:bg-blue-950/70 dark:text-blue-200'
+                      : 'text-slate-700 dark:text-slate-300'
                   "
                 >
                   <td class="py-1.5 px-2">{{ rule.state }}</td>
@@ -134,41 +134,41 @@ const isDone = computed(() => currentStep.value >= result.value.steps.length && 
 
         <!-- Written Trace Log (just how you write it on paper!) -->
         <div class="lg:col-span-7">
-          <div class="overflow-hidden rounded-lg border border-slate-200 bg-white">
-            <div class="border-b border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700">
+          <div class="overflow-hidden rounded-lg border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900">
+            <div class="border-b border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700 dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-300">
               Ślad wykonania krok po kroku (zapis do zeszytu)
             </div>
-            <div class="max-h-80 overflow-y-auto divide-y divide-slate-100">
+            <div class="max-h-80 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800">
               <button
                 v-for="st in result.steps.slice(0, currentStep)"
                 :key="'tr-' + st.stepNum"
                 type="button"
                 @click="currentStep = st.stepNum"
-                class="flex w-full items-center justify-between gap-3 px-3 py-2 text-left font-mono text-xs transition-colors hover:bg-slate-50 tabular-nums"
-                :class="st.stepNum === currentStep ? 'bg-blue-50/70' : ''"
+                class="flex w-full items-center justify-between gap-3 px-3 py-2 text-left font-mono text-xs transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/60 tabular-nums"
+                :class="st.stepNum === currentStep ? 'bg-blue-50/70 dark:bg-blue-950/50' : ''"
               >
-                <span class="shrink-0 text-slate-500">
+                <span class="shrink-0 text-slate-500 dark:text-slate-400">
                   {{ String(st.stepNum).padStart(2, '0') }}. [{{ st.stateBefore }}→{{ st.nextState }}]
                 </span>
-                <span class="truncate text-slate-800">
+                <span class="truncate text-slate-800 dark:text-slate-200">
                   <template v-for="(ch, cIdx) in st.tapeAfter" :key="cIdx">
                     <span
                       :class="
                         cIdx === st.headPosBefore
-                          ? 'rounded bg-amber-100 px-0.5 font-bold text-amber-900'
+                          ? 'rounded bg-amber-100 px-0.5 font-bold text-amber-900 dark:bg-amber-900/60 dark:text-amber-200'
                           : ''
                       "
                     >{{ ch }}</span>{{ cIdx < st.tapeAfter.length - 1 ? ' ' : '' }}
                   </template>
                 </span>
-                <span class="shrink-0 text-slate-500">poz. {{ st.headPosBefore + 1 }} {{ st.move }}</span>
+                <span class="shrink-0 text-slate-500 dark:text-slate-400">poz. {{ st.headPosBefore + 1 }} {{ st.move }}</span>
               </button>
             </div>
           </div>
 
           <div
             v-if="isDone"
-            class="mt-3 rounded-lg border border-emerald-300 bg-emerald-50/70 px-4 py-2.5 font-mono text-sm font-bold text-slate-900"
+            class="mt-3 rounded-lg border border-emerald-300 bg-emerald-50/70 px-4 py-2.5 font-mono text-sm font-bold text-slate-900 dark:border-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-200"
           >
             Taśma końcowa: {{ result.finalTapeStr }}
           </div>

@@ -34,11 +34,11 @@ const chars = (s: string) => s.split('');
     />
 
     <!-- Whiteboard grid mimicking image_49592ee4.png -->
-    <div class="notebook-grid overflow-x-auto rounded-xl border border-slate-200 p-5 sm:p-6">
+    <div class="notebook-grid overflow-x-auto rounded-xl border border-slate-200 p-5 sm:p-6 dark:border-slate-800">
       <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
         <!-- Left/Main: Modulo-2 Division Stack -->
         <div class="overflow-x-auto">
-          <div class="mb-3 text-xs text-slate-500">
+          <div class="mb-3 text-xs text-slate-500 dark:text-slate-400">
             Dzielenie modulo 2 (XOR bez pożyczek, przerywane kreski oznaczają spuszczane bity)
           </div>
 
@@ -51,8 +51,8 @@ const chars = (s: string) => s.split('');
                 class="flex h-8 w-6 items-center justify-center font-bold"
                 :class="
                   appendZeros && col >= result.originalData.length
-                    ? 'text-blue-700 underline decoration-blue-300 decoration-2 underline-offset-4'
-                    : 'text-slate-900'
+                    ? 'text-blue-700 underline decoration-blue-300 decoration-2 underline-offset-4 dark:text-blue-400 dark:decoration-blue-500'
+                    : 'text-slate-900 dark:text-slate-100'
                 "
               >
                 {{ bit }}
@@ -81,15 +81,15 @@ const chars = (s: string) => s.split('');
                         col - 1 >= (visibleSteps[sIdx - 1].droppedFromCol ?? 0) &&
                         col - 1 <= (visibleSteps[sIdx - 1].droppedToCol ?? -1)
                       "
-                      class="relative flex h-7 w-6 items-center justify-center font-bold text-blue-700"
+                      class="relative flex h-7 w-6 items-center justify-center font-bold text-blue-700 dark:text-blue-400"
                     >
                       <span
-                        class="pointer-events-none absolute -top-12 bottom-6 left-1/2 w-px -translate-x-1/2 border-l border-dashed border-blue-400"
+                        class="pointer-events-none absolute -top-12 bottom-6 left-1/2 w-px -translate-x-1/2 border-l border-dashed border-blue-400 dark:border-blue-500"
                         aria-hidden="true"
                       ></span>
                       {{ st.currentWindow[col - 1 - st.alignStartCol] }}
                     </span>
-                    <span v-else class="text-slate-900">
+                    <span v-else class="text-slate-900 dark:text-slate-100">
                       {{ st.currentWindow[col - 1 - st.alignStartCol] }}
                     </span>
                   </template>
@@ -104,8 +104,8 @@ const chars = (s: string) => s.split('');
                   class="relative flex h-7 w-6 items-center justify-center"
                   :class="
                     sIdx === visibleSteps.length - 1
-                      ? 'text-rose-700 font-semibold'
-                      : 'text-slate-700'
+                      ? 'text-rose-700 font-semibold dark:text-rose-400'
+                      : 'text-slate-700 dark:text-slate-300'
                   "
                 >
                   <template
@@ -116,7 +116,7 @@ const chars = (s: string) => s.split('');
                   >
                     {{ st.generator[col - 1 - st.alignStartCol] }}
                     <span
-                      class="absolute right-0 bottom-0 left-0 border-b-2 border-slate-800"
+                      class="absolute right-0 bottom-0 left-0 border-b-2 border-slate-800 dark:border-slate-300"
                     ></span>
                   </template>
                 </span>
@@ -139,8 +139,8 @@ const chars = (s: string) => s.split('');
                       :class="
                         isComplete &&
                         col - 1 >= result.dividend.length - result.remainderLength
-                          ? 'text-emerald-700'
-                          : 'text-slate-600'
+                          ? 'text-emerald-700 dark:text-emerald-400'
+                          : 'text-slate-600 dark:text-slate-400'
                       "
                     >
                       {{ st.xorResultFull[col - 1 - st.alignStartCol] }}
@@ -154,7 +154,7 @@ const chars = (s: string) => s.split('');
                       col - 1 <= (st.droppedToCol ?? -1)
                     "
                   >
-                    <span class="text-emerald-700">{{ result.dividend[col - 1] }}</span>
+                    <span class="text-emerald-700 dark:text-emerald-400">{{ result.dividend[col - 1] }}</span>
                   </template>
                 </span>
               </div>
@@ -164,12 +164,12 @@ const chars = (s: string) => s.split('');
 
         <!-- Right Side: GENERATOR box (exact match to right side of image_49592ee4.png) -->
         <div class="shrink-0 space-y-3 lg:w-64">
-          <div class="rounded-lg border border-slate-300 bg-white p-3.5">
-            <div class="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5">
-              <span class="font-mono text-base font-bold text-slate-900">{{ result.generator }}</span>
-              <span class="text-xs font-semibold tracking-wide text-slate-500">GENERATOR</span>
+          <div class="rounded-lg border border-slate-300 bg-white p-3.5 dark:border-slate-700 dark:bg-slate-900">
+            <div class="mb-2 flex items-center justify-between border-b border-slate-200 pb-1.5 dark:border-slate-700">
+              <span class="font-mono text-base font-bold text-slate-900 dark:text-slate-100">{{ result.generator }}</span>
+              <span class="text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400">GENERATOR</span>
             </div>
-            <div class="space-y-1.5 text-xs text-slate-700">
+            <div class="space-y-1.5 text-xs text-slate-700 dark:text-slate-300">
               <div>
                 Długość generatora: <strong class="font-mono">{{ result.generator.length }} bitów</strong>
               </div>
@@ -178,7 +178,7 @@ const chars = (s: string) => s.split('');
               </div>
               <div>
                 Dopisane zera:
-                <strong class="font-mono" :class="appendZeros ? 'text-blue-700' : 'text-amber-700'">
+                <strong class="font-mono" :class="appendZeros ? 'text-blue-700 dark:text-blue-400' : 'text-amber-700 dark:text-amber-400'">
                   {{ appendZeros ? `${result.appendedZerosCount} zera (wyznaczanie)` : '0 zer (weryfikacja!)' }}
                 </strong>
               </div>
@@ -190,24 +190,24 @@ const chars = (s: string) => s.split('');
             class="rounded-lg border p-3.5"
             :class="
               result.errorDetected === true
-                ? 'border-rose-300 bg-rose-50/70'
-                : 'border-emerald-300 bg-emerald-50/70'
+                ? 'border-rose-300 bg-rose-50/70 dark:border-rose-700 dark:bg-rose-950/50'
+                : 'border-emerald-300 bg-emerald-50/70 dark:border-emerald-700 dark:bg-emerald-950/50'
             "
           >
-            <div class="text-xs font-medium text-slate-600">
+            <div class="text-xs font-medium text-slate-600 dark:text-slate-300">
               {{ appendZeros ? 'Wyznaczona reszta CRC:' : 'Reszta z weryfikacji:' }}
             </div>
-            <div class="mt-1 font-mono text-2xl font-bold tracking-widest text-slate-900 tabular-nums">
+            <div class="mt-1 font-mono text-2xl font-bold tracking-widest text-slate-900 dark:text-slate-100 tabular-nums">
               {{ result.remainder }}
             </div>
-            <div v-if="appendZeros" class="mt-2 text-xs text-slate-700">
+            <div v-if="appendZeros" class="mt-2 text-xs text-slate-700 dark:text-slate-300">
               Ramka do wysłania: <span class="font-mono font-semibold">{{ result.transmittedFrame }}</span>
             </div>
             <div v-else class="mt-2 text-xs font-semibold">
-              <span v-if="result.errorDetected" class="text-rose-800">
+              <span v-if="result.errorDetected" class="text-rose-800 dark:text-rose-300">
                 Wykryto błąd transmisji (reszta ≠ 0000)
               </span>
-              <span v-else class="text-emerald-800">
+              <span v-else class="text-emerald-800 dark:text-emerald-300">
                 Nie wykryto błędu transmisji (reszta = 0000)
               </span>
             </div>

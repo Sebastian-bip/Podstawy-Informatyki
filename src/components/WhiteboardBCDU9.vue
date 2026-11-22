@@ -41,27 +41,27 @@ const explanation = computed(() => {
       :explanation="explanation"
     />
 
-    <div class="notebook-grid rounded-xl border border-slate-200 p-5 sm:p-6">
+    <div class="notebook-grid rounded-xl border border-slate-200 p-5 sm:p-6 dark:border-slate-800">
       <!-- Step 1: Conversion to U9 + BCD -->
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div class="rounded-lg border border-slate-200 bg-white p-4 font-mono text-sm tabular-nums">
-          <div class="mb-1.5 font-sans text-xs font-semibold text-slate-800">
+        <div class="rounded-lg border border-slate-200 bg-white p-4 font-mono text-sm tabular-nums dark:border-slate-700 dark:bg-slate-900">
+          <div class="mb-1.5 font-sans text-xs font-semibold text-slate-800 dark:text-slate-200">
             1. Pierwsza liczba: {{ a }}
           </div>
-          <div class="text-slate-700">
+          <div class="text-slate-700 dark:text-slate-300">
             {{ a < 0 ? `U9(${a}) = 99 − ${Math.abs(a)} = ${result.aU9Dec}` : 'Dodatnia → bez zmiany' }}
           </div>
-          <div class="mt-1 font-bold text-blue-700">BCD: {{ result.aBcd }}</div>
+          <div class="mt-1 font-bold text-blue-700 dark:text-blue-400">BCD: {{ result.aBcd }}</div>
         </div>
 
-        <div class="rounded-lg border border-slate-200 bg-white p-4 font-mono text-sm tabular-nums">
-          <div class="mb-1.5 font-sans text-xs font-semibold text-slate-800">
+        <div class="rounded-lg border border-slate-200 bg-white p-4 font-mono text-sm tabular-nums dark:border-slate-700 dark:bg-slate-900">
+          <div class="mb-1.5 font-sans text-xs font-semibold text-slate-800 dark:text-slate-200">
             2. Druga liczba: {{ b }}
           </div>
-          <div class="text-slate-700">
+          <div class="text-slate-700 dark:text-slate-300">
             {{ b < 0 ? `U9(${b}) = 99 − ${Math.abs(b)} = ${result.bU9Dec}` : 'Dodatnia → bez zmiany' }}
           </div>
-          <div class="mt-1 font-bold text-blue-700">BCD: {{ result.bBcd }}</div>
+          <div class="mt-1 font-bold text-blue-700 dark:text-blue-400">BCD: {{ result.bBcd }}</div>
         </div>
       </div>
 
@@ -71,51 +71,51 @@ const explanation = computed(() => {
         <div
           v-for="nib in [result.nibbleSteps[1], result.nibbleSteps[0]]"
           :key="nib.positionLabel"
-          class="rounded-lg border border-slate-200 bg-white p-4"
+          class="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900"
         >
-          <div class="mb-2 text-xs font-semibold text-slate-700">{{ nib.positionLabel }}</div>
-          <div class="space-y-1 font-mono text-base tabular-nums">
-            <div v-if="nib.incomingCarry > 0" class="text-xs font-bold text-amber-700">
+          <div class="mb-2 text-xs font-semibold text-slate-700 dark:text-slate-300">{{ nib.positionLabel }}</div>
+          <div class="space-y-1 font-mono text-base tabular-nums text-slate-900 dark:text-slate-100">
+            <div v-if="nib.incomingCarry > 0" class="text-xs font-bold text-amber-700 dark:text-amber-400">
               +1 (przeniesienie z jedności)
             </div>
             <div class="flex justify-between">
               <span>{{ nib.bcdA }}</span>
-              <span class="text-slate-400">({{ nib.digitA }})</span>
+              <span class="text-slate-400 dark:text-slate-500">({{ nib.digitA }})</span>
             </div>
-            <div class="flex justify-between border-b border-slate-800 pb-1">
+            <div class="flex justify-between border-b border-slate-800 pb-1 dark:border-slate-300">
               <span>+ {{ nib.bcdB }}</span>
-              <span class="text-slate-400">({{ nib.digitB }})</span>
+              <span class="text-slate-400 dark:text-slate-500">({{ nib.digitB }})</span>
             </div>
             <div class="flex justify-between pt-0.5 font-semibold">
               <span>{{ nib.rawSumBin }}</span>
-              <span :class="nib.needsCorrection ? 'text-rose-700' : 'text-emerald-700'">
+              <span :class="nib.needsCorrection ? 'text-rose-700 dark:text-rose-400' : 'text-emerald-700 dark:text-emerald-400'">
                 ({{ nib.rawSumDec }}{{ nib.needsCorrection ? ' > 9!' : ' ≤ 9' }})
               </span>
             </div>
             <template v-if="nib.needsCorrection">
-              <div class="flex justify-between border-b border-amber-600 pb-1 text-amber-700">
+              <div class="flex justify-between border-b border-amber-600 pb-1 text-amber-700 dark:border-amber-500 dark:text-amber-400">
                 <span>+ 0110</span>
                 <span class="text-xs font-sans font-semibold">(korekcja +6)</span>
               </div>
-              <div class="flex justify-between pt-0.5 font-bold text-emerald-700">
+              <div class="flex justify-between pt-0.5 font-bold text-emerald-700 dark:text-emerald-400">
                 <span>{{ nib.finalBcd }}</span>
                 <span class="text-xs font-sans">({{ nib.finalDigit }}, przen. {{ nib.carryOut }})</span>
               </div>
             </template>
           </div>
-          <p class="mt-2 text-xs leading-relaxed text-slate-600">{{ nib.explanation }}</p>
+          <p class="mt-2 text-xs leading-relaxed text-slate-600 dark:text-slate-400">{{ nib.explanation }}</p>
         </div>
       </div>
 
       <!-- Step 3: Final Answer -->
       <div
         v-if="currentStep >= 3"
-        class="mt-5 rounded-lg border border-emerald-300 bg-emerald-50/70 px-4 py-3 text-sm"
+        class="mt-5 rounded-lg border border-emerald-300 bg-emerald-50/70 px-4 py-3 text-sm dark:border-emerald-700 dark:bg-emerald-950/50"
       >
-        <div class="font-mono text-base font-bold text-slate-900">
-          Wynik w U9 zapisany w BCD: <span class="text-emerald-800">{{ result.resultBcd }}</span>
+        <div class="font-mono text-base font-bold text-slate-900 dark:text-slate-100">
+          Wynik w U9 zapisany w BCD: <span class="text-emerald-800 dark:text-emerald-300">{{ result.resultBcd }}</span>
         </div>
-        <div class="mt-1 text-xs text-slate-700">
+        <div class="mt-1 text-xs text-slate-700 dark:text-slate-300">
           Brak przeniesienia z najstarszej pozycji (dziesiątek) oznacza wynik ujemny w kodzie U9:
           <span class="font-mono font-semibold">{{ result.resultU9Dec }}</span> w U9 = −(99 − {{ result.resultU9Dec }}) =
           <strong>{{ result.decodedDecimalResult }}</strong> (zgodnie z {{ a }} + ({{ b }}) = {{ a + b }}).
