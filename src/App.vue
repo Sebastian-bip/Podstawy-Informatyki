@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { Check, Moon, Sun } from 'lucide-vue-next';
+import { Analytics } from '@vercel/analytics/vue';
 import { SpeedInsights } from '@vercel/speed-insights/vue';
 import { EXAM_SETS } from './data/exams';
 import TaskWorkspace from './components/TaskWorkspace.vue';
@@ -483,6 +484,7 @@ const selectTab = (tab: MainTab) => {
         <span>Wszystkie rozwiązania opracowane metodą pisemną krok po kroku</span>
       </div>
     </footer>
+    <Analytics />
     <SpeedInsights />
   </div>
 </template>
