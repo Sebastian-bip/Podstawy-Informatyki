@@ -114,17 +114,17 @@ const tools: { id: ToolId; label: string }[] = [
 
 <template>
   <div class="space-y-6">
-    <div class="border-b border-slate-200 pb-4 dark:border-slate-800">
-      <h1 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+    <div class="border-b border-[#e4dccb] pb-4 dark:border-slate-800">
+      <h1 class="text-2xl font-bold tracking-tight text-stone-900 dark:text-slate-100">
         Generator własnych przykładów pisemnych
       </h1>
-      <p class="mt-1.5 max-w-3xl text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+      <p class="mt-1.5 max-w-3xl text-sm leading-relaxed text-stone-600 dark:text-slate-400">
         Wpisz własne liczby z notatek lub poprzednich kolokwiów, a system automatycznie wygeneruje pełne rozwiązanie krok po kroku zgodnie ze sposobem zapisu wymaganym na zajęciach.
       </p>
     </div>
 
     <!-- Tool Selector -->
-    <div class="flex flex-wrap gap-1.5 rounded-xl border border-slate-200 bg-white p-2 dark:border-slate-800 dark:bg-slate-900">
+    <div class="flex flex-wrap gap-1.5 rounded-xl border border-[#e4dccb] bg-[#fffdf7] p-2 dark:border-slate-800 dark:bg-slate-900">
       <button
         v-for="t in tools"
         :key="t.id"
@@ -134,7 +134,7 @@ const tools: { id: ToolId; label: string }[] = [
         :class="
           activeTool === t.id
             ? 'bg-blue-700 text-white dark:bg-blue-600'
-            : 'text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
+            : 'text-stone-700 hover:bg-[#f7f1e3] dark:text-slate-300 dark:hover:bg-slate-800'
         "
       >
         {{ t.label }}
@@ -142,198 +142,198 @@ const tools: { id: ToolId; label: string }[] = [
     </div>
 
     <!-- Input Panel -->
-    <div class="rounded-xl border border-slate-200 bg-white p-4 sm:p-5 dark:border-slate-800 dark:bg-slate-900">
+    <div class="rounded-xl border border-[#e4dccb] bg-[#fffdf7] p-4 sm:p-5 dark:border-slate-800 dark:bg-slate-900">
       <div v-if="activeTool === 'binary-division'" class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+        <label class="block text-xs font-semibold text-stone-700 dark:text-slate-300">
           Dzielna (binarnie)
           <input
             v-model="binDividend"
             type="text"
-            class="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 font-mono text-sm text-slate-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
+            class="mt-1.5 w-full rounded-lg border border-[#d6ccb8] bg-[#fffdf7] px-3 py-2 font-mono text-sm text-stone-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
           />
         </label>
-        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+        <label class="block text-xs font-semibold text-stone-700 dark:text-slate-300">
           Dzielnik (binarnie)
           <input
             v-model="binDivisor"
             type="text"
-            class="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 font-mono text-sm text-slate-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
+            class="mt-1.5 w-full rounded-lg border border-[#d6ccb8] bg-[#fffdf7] px-3 py-2 font-mono text-sm text-stone-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
           />
         </label>
       </div>
 
       <div v-if="activeTool === 'hex-multiplication'" class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+        <label class="block text-xs font-semibold text-stone-700 dark:text-slate-300">
           Pierwsza liczba (hex)
           <input
             v-model="hexA"
             type="text"
-            class="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 font-mono text-sm uppercase text-slate-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
+            class="mt-1.5 w-full rounded-lg border border-[#d6ccb8] bg-[#fffdf7] px-3 py-2 font-mono text-sm uppercase text-stone-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
           />
         </label>
-        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+        <label class="block text-xs font-semibold text-stone-700 dark:text-slate-300">
           Druga liczba (hex)
           <input
             v-model="hexB"
             type="text"
-            class="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 font-mono text-sm uppercase text-slate-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
+            class="mt-1.5 w-full rounded-lg border border-[#d6ccb8] bg-[#fffdf7] px-3 py-2 font-mono text-sm uppercase text-stone-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
           />
         </label>
       </div>
 
       <div v-if="activeTool === 'decimal-to-binary'" class="max-w-sm">
-        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+        <label class="block text-xs font-semibold text-stone-700 dark:text-slate-300">
           Liczba dziesiętna (z ułamkiem lub okresowa, np. 43,2)
           <input
             v-model="decToBinInput"
             type="text"
-            class="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 font-mono text-sm text-slate-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
+            class="mt-1.5 w-full rounded-lg border border-[#d6ccb8] bg-[#fffdf7] px-3 py-2 font-mono text-sm text-stone-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
           />
         </label>
       </div>
 
       <div v-if="activeTool === 'any-base'" class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+        <label class="block text-xs font-semibold text-stone-700 dark:text-slate-300">
           Liczba wejściowa
           <input
             v-model="anySource"
             type="text"
-            class="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 font-mono text-sm uppercase text-slate-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
+            class="mt-1.5 w-full rounded-lg border border-[#d6ccb8] bg-[#fffdf7] px-3 py-2 font-mono text-sm uppercase text-stone-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
           />
         </label>
-        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+        <label class="block text-xs font-semibold text-stone-700 dark:text-slate-300">
           Podstawa źródłowa (2–16)
           <input
             v-model.number="anyFromBase"
             type="number"
             min="2"
             max="16"
-            class="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 font-mono text-sm text-slate-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
+            class="mt-1.5 w-full rounded-lg border border-[#d6ccb8] bg-[#fffdf7] px-3 py-2 font-mono text-sm text-stone-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
           />
         </label>
-        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+        <label class="block text-xs font-semibold text-stone-700 dark:text-slate-300">
           Podstawa docelowa (2–16)
           <input
             v-model.number="anyToBase"
             type="number"
             min="2"
             max="16"
-            class="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 font-mono text-sm text-slate-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
+            class="mt-1.5 w-full rounded-lg border border-[#d6ccb8] bg-[#fffdf7] px-3 py-2 font-mono text-sm text-stone-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
           />
         </label>
       </div>
 
       <div v-if="activeTool === 'crc'" class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+        <label class="block text-xs font-semibold text-stone-700 dark:text-slate-300">
           Ciąg danych / odebrana ramka
           <input
             v-model="crcData"
             type="text"
-            class="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 font-mono text-sm text-slate-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
+            class="mt-1.5 w-full rounded-lg border border-[#d6ccb8] bg-[#fffdf7] px-3 py-2 font-mono text-sm text-stone-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
           />
         </label>
-        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+        <label class="block text-xs font-semibold text-stone-700 dark:text-slate-300">
           Wielomian generacyjny
           <input
             v-model="crcGen"
             type="text"
-            class="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 font-mono text-sm text-slate-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
+            class="mt-1.5 w-full rounded-lg border border-[#d6ccb8] bg-[#fffdf7] px-3 py-2 font-mono text-sm text-stone-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
           />
         </label>
-        <label class="flex items-center gap-2.5 pt-5 text-xs font-semibold text-slate-700 dark:text-slate-300">
-          <input v-model="crcAppendZeros" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-blue-700 dark:border-slate-600 dark:bg-slate-800" />
+        <label class="flex items-center gap-2.5 pt-5 text-xs font-semibold text-stone-700 dark:text-slate-300">
+          <input v-model="crcAppendZeros" type="checkbox" class="h-4 w-4 rounded border-[#d6ccb8] text-blue-700 dark:border-slate-600 dark:bg-slate-800" />
           Dopisz zera (wyznaczanie CRC zamiast weryfikacji)
         </label>
       </div>
 
       <div v-if="activeTool === 'ieee-decode'" class="max-w-md">
-        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+        <label class="block text-xs font-semibold text-stone-700 dark:text-slate-300">
           Ciąg 16 bitów (binary16, bias = 15)
           <input
             v-model="ieeeBits"
             type="text"
             maxlength="19"
-            class="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 font-mono text-sm text-slate-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
+            class="mt-1.5 w-full rounded-lg border border-[#d6ccb8] bg-[#fffdf7] px-3 py-2 font-mono text-sm text-stone-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
           />
         </label>
       </div>
 
       <div v-if="activeTool === 'ieee-encode'" class="max-w-sm">
-        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+        <label class="block text-xs font-semibold text-stone-700 dark:text-slate-300">
           Liczba dziesiętna (np. -11,5 lub 6,25)
           <input
             v-model="ieeeVal"
             type="text"
-            class="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 font-mono text-sm text-slate-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
+            class="mt-1.5 w-full rounded-lg border border-[#d6ccb8] bg-[#fffdf7] px-3 py-2 font-mono text-sm text-stone-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
           />
         </label>
       </div>
 
       <div v-if="activeTool === 'u2'" class="grid grid-cols-1 gap-4 sm:grid-cols-2 max-w-md">
-        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+        <label class="block text-xs font-semibold text-stone-700 dark:text-slate-300">
           Pierwsza liczba (−128 do 127)
           <input
             v-model.number="u2A"
             type="number"
             min="-128"
             max="127"
-            class="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 font-mono text-sm text-slate-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
+            class="mt-1.5 w-full rounded-lg border border-[#d6ccb8] bg-[#fffdf7] px-3 py-2 font-mono text-sm text-stone-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
           />
         </label>
-        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+        <label class="block text-xs font-semibold text-stone-700 dark:text-slate-300">
           Druga liczba (−128 do 127)
           <input
             v-model.number="u2B"
             type="number"
             min="-128"
             max="127"
-            class="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 font-mono text-sm text-slate-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
+            class="mt-1.5 w-full rounded-lg border border-[#d6ccb8] bg-[#fffdf7] px-3 py-2 font-mono text-sm text-stone-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
           />
         </label>
       </div>
 
       <div v-if="activeTool === 'bcd-u9'" class="grid grid-cols-1 gap-4 sm:grid-cols-2 max-w-md">
-        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+        <label class="block text-xs font-semibold text-stone-700 dark:text-slate-300">
           Pierwsza liczba (−99 do 99)
           <input
             v-model.number="bcdA"
             type="number"
             min="-99"
             max="99"
-            class="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 font-mono text-sm text-slate-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
+            class="mt-1.5 w-full rounded-lg border border-[#d6ccb8] bg-[#fffdf7] px-3 py-2 font-mono text-sm text-stone-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
           />
         </label>
-        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+        <label class="block text-xs font-semibold text-stone-700 dark:text-slate-300">
           Druga liczba (−99 do 99)
           <input
             v-model.number="bcdB"
             type="number"
             min="-99"
             max="99"
-            class="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 font-mono text-sm text-slate-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
+            class="mt-1.5 w-full rounded-lg border border-[#d6ccb8] bg-[#fffdf7] px-3 py-2 font-mono text-sm text-stone-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
           />
         </label>
       </div>
 
       <div v-if="activeTool === 'booth'" class="grid grid-cols-1 gap-4 sm:grid-cols-2 max-w-md">
-        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+        <label class="block text-xs font-semibold text-stone-700 dark:text-slate-300">
           Mnożna M (−8 do 7)
           <input
             v-model.number="boothM"
             type="number"
             min="-8"
             max="7"
-            class="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 font-mono text-sm text-slate-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
+            class="mt-1.5 w-full rounded-lg border border-[#d6ccb8] bg-[#fffdf7] px-3 py-2 font-mono text-sm text-stone-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
           />
         </label>
-        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+        <label class="block text-xs font-semibold text-stone-700 dark:text-slate-300">
           Mnożnik Q (−8 do 7)
           <input
             v-model.number="boothQ"
             type="number"
             min="-8"
             max="7"
-            class="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 font-mono text-sm text-slate-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
+            class="mt-1.5 w-full rounded-lg border border-[#d6ccb8] bg-[#fffdf7] px-3 py-2 font-mono text-sm text-stone-900 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500"
           />
         </label>
       </div>

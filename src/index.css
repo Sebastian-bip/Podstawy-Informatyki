@@ -10,8 +10,8 @@
 @layer base {
   body {
     font-family: var(--font-sans);
-    background-color: #f8fafc;
-    color: #0f172a;
+    background-color: #f5efe2;
+    color: #1c1917;
   }
 
   .dark body {
@@ -25,10 +25,10 @@
 }
 
 .notebook-grid {
-  background-color: #ffffff;
+  background-color: #fcf8ee;
   background-image:
-    linear-gradient(to right, rgba(226, 232, 240, 0.45) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(226, 232, 240, 0.45) 1px, transparent 1px);
+    linear-gradient(to right, rgba(176, 160, 132, 0.25) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(176, 160, 132, 0.25) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
